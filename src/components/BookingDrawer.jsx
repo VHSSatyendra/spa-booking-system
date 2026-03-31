@@ -183,16 +183,19 @@ const BookingDrawer = ({ isOpen, onClose, data, onSuccess, selectedDate }) => {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_BASE_URL}/bookings/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token
-            ? { Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}` }
-            : {}),
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/bookings/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token
+              ? { Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}` }
+              : {}),
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       const result = await response.json();
 
