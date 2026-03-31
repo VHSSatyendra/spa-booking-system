@@ -187,7 +187,9 @@ const BookingDrawer = ({ isOpen, onClose, data, onSuccess, selectedDate }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...(token
+            ? { Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}` }
+            : {}),
         },
         body: JSON.stringify(payload),
       });

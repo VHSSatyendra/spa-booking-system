@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://dev.natureland.hipster-virtual.com",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // attach token automatically
@@ -9,7 +9,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${import.meta.env.VITE_API_TOKEN}`;
   }
 
   return config;
