@@ -10,7 +10,7 @@ export function useOutlets(isAuthenticated?: boolean) {
     queryKey: ["outlets"],
     queryFn: getOutlets,
     staleTime: 0,
-    gcTime: 5 * 60_000,
+    gcTime: 0,
     enabled: isAuthenticated !== undefined ? isAuthenticated : isAuthed(),
   });
 }
@@ -20,7 +20,8 @@ export function useTherapists(outletId?: number, isAuthenticated?: boolean) {
   return useQuery({
     queryKey: ["therapists", outletId],
     queryFn: () => getTherapists(outletId),
-    staleTime: 5 * 60_000,
+    staleTime: 0,
+    gcTime: 0,
     enabled: authed && !!outletId,
   });
 }
@@ -30,7 +31,8 @@ export function useServices(outletId?: number, isAuthenticated?: boolean) {
   return useQuery({
     queryKey: ["services", outletId],
     queryFn: () => getServices(outletId),
-    staleTime: 5 * 60_000,
+    staleTime: 0,
+    gcTime: 0,
     enabled: authed && !!outletId,
   });
 }

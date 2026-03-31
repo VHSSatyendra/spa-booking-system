@@ -15,6 +15,8 @@ const THERAPIST_COL_WIDTH = 120;
 interface BookingGridProps {
   bookings: Booking[];
   therapists: Therapist[];
+  therapistsLoading?: boolean;
+  bookingsLoading?: boolean;
   onBookingClick: (booking: Booking) => void;
   onSlotClick: (therapistId: number | null, time: string) => void;
   selectedBookingId?: number | null;
@@ -23,6 +25,8 @@ interface BookingGridProps {
 export const BookingGrid = memo(function BookingGrid({
   bookings,
   therapists,
+  therapistsLoading = false,
+  bookingsLoading = false,
   onBookingClick,
   onSlotClick,
   selectedBookingId,
@@ -201,7 +205,7 @@ export const BookingGrid = memo(function BookingGrid({
 
             {displayTherapists.length === 0 && (
               <div className="flex-1 flex items-center justify-center text-gray-400 text-sm py-20">
-                No therapists found
+                {therapistsLoading ? "Loading therapists..." : "No therapists found"}
               </div>
             )}
           </div>

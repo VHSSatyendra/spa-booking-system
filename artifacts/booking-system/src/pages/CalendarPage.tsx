@@ -44,9 +44,11 @@ export function CalendarPage({ isAuthenticated = true }: CalendarPageProps) {
   }, [outlets, outletId]);
 
   const { data: bookings = [], isLoading: bookingsLoading } = useBookings(dateStr, outletId, isAuthenticated);
-  const { data: therapists = [] } = useTherapists(outletId, isAuthenticated);
+  const { data: therapists = [], isLoading: therapistsLoading } = useTherapists(outletId, isAuthenticated);
   const { data: services = [] } = useServices(outletId, isAuthenticated);
   const { data: rooms = [] } = useRooms(outletId, isAuthenticated);
+
+  console.log("[CalendarPage] render — outletId:", outletId, "therapists:", therapists.length, "therapistsLoading:", therapistsLoading, "bookingsLoading:", bookingsLoading);
 
   const createMutation = useCreateBooking(dateStr, outletId);
   const updateMutation = useUpdateBooking(dateStr, outletId);
@@ -226,14 +228,16 @@ export function CalendarPage({ isAuthenticated = true }: CalendarPageProps) {
       </div>
 
       <div className="flex-1 overflow-hidden relative">
-        {bookingsLoading ? (
+        {outletId === 0 ? (
           <div className="flex items-center justify-center h-full">
-            <div className="text-gray-400 text-sm animate-pulse">Loading bookings...</div>
+            <div className="text-gray-400 text-sm animate-pulse">Loading outlets...</div>
           </div>
         ) : (
           <BookingGrid
             bookings={filteredBookings}
             therapists={therapists}
+            therapistsLoading={therapistsLoading}
+            bookingsLoading={bookingsLoading}
             onBookingClick={handleBookingClick}
             onSlotClick={handleSlotClick}
             selectedBookingId={selectedBooking?.id}

@@ -318,14 +318,19 @@ export async function getOutletDetail(outletId: number): Promise<Outlet | null> 
 export async function getTherapists(outletId?: number): Promise<Therapist[]> {
   if (!outletId) return [];
   try {
+    console.log("[API] getTherapists fetching outlet", outletId);
     const detail = await getOutletDetail(outletId);
+    console.log("[API] getTherapists detail staff:", detail?.staff?.length ?? "no staff");
     if (detail?.staff && Array.isArray(detail.staff)) {
-      return detail.staff.map((s) => ({
+      const mapped = detail.staff.map((s) => ({
         ...s,
         name: s.alias || s.name || `Therapist ${s.id}`,
         outlet_id: outletId,
       }));
+      console.log("[API] getTherapists returning", mapped.length, "therapists, first:", mapped[0]?.name);
+      return mapped;
     }
+    console.warn("[API] getTherapists no staff array for outlet", outletId, "detail keys:", Object.keys(detail || {}));
     return [];
   } catch (e) {
     console.error("[API] getTherapists failed", e);
